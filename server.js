@@ -12,34 +12,34 @@ app.use(
   })
 );
 
-var pandemias = [];
+var pandemics = [];
 
-app.post("/crearPandemia", function(req, res) {
-  var pandemia = {
-    nombre: req.body.nombre,
-    sintoma: req.body.sintoma,
-    recomendaciones: req.body.recomendaciones,
-    enCurso: req.body.enCurso,
-    paises: req.body.paises
+app.post("/createpandemic", function(req, res) {
+  var pandemic = {
+    name: req.body.name,
+    symptom: req.body.symptom,
+    recomendations: req.body.recomendations,
+    inCurse: req.body.inCurse,
+    countries: req.body.countries
   };
-  pandemia.id = crypto.randomBytes(20).toString("hex");
-  pandemias.push(pandemia);
-  res.json(pandemia);
+  pandemic.id = crypto.randomBytes(20).toString("hex");
+  pandemics.push(pandemic);
+  res.json(pandemic);
 });
 
-app.post("/paises", function(req, res) {
-  let paises = pandemias.filter(
-    pandemia => pandemia.id == req.body.id
+app.post("/pandemicCountries", function(req, res) {
+  let pandemicsCountries = pandemics.filter(
+    pandemic => pandemic.id == req.body.id
   );
-  let paisContagio = [];
-  paises.map(pandemia => {
-    console.log(pandemia);
-    paisContagio.push(pandemia.countries);
+  let countries = [];
+  pandemicsCountries.map(pandemic => {
+    console.log(pandemic);
+    countries.push(pandemic.countries);
   });
-  res.json(paises);
+  res.json(countries);
 });
 
-app.post("/actulizarPais", function(req, res) {
+app.post("/updateCountryData", function(req, res) {
   let pandemicsquery = pandemics.filter(pandemic => pandemic.id == req.body.id);
   if (pandemicsquery.length == 0) {
     return res.json(`no se encontro ningun pais con el codigo ${req.body.id}`);
@@ -53,7 +53,7 @@ app.post("/actulizarPais", function(req, res) {
     console.log(pandemic);
     countries.push(pandemic.countries);
   });
-  res.json(paises);
+  res.json(countries);
 });
 
 const server = app.listen(app.get("port"), () => {
