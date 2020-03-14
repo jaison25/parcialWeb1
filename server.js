@@ -3,7 +3,7 @@ const bodyParser = require ('body-parser');
 const crypto = require ('crypto');
 
 var app = express();
-app.set("port", process.env.PORT || 4000);
+app.set("port", process.env.PORT || 3000);
 
 app.use(bodyParser.json());
 app.use(
