@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/jaison25/parcialWeb1#readme",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "express": "^4.17.1"
   }
 }
