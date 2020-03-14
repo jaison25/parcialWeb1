@@ -1,0 +1,24 @@
+{
+  "name": "pandemia",
+  "version": "1.0.0",
+  "description": "Parcial",
+  "main": "pandemia.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaison25/parcialWeb1.git"
+  },
+  "keywords": [
+    "pandemias",
+    "pandemia",
+    "mundial"
+  ],
+  "author": "Stiveen Rincon Vanessa Rubio Jaison Suarez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaison25/parcialWeb1/issues"
+  },
+  "homepage": "https://github.com/jaison25/parcialWeb1#readme"
+}
