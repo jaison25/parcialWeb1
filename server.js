@@ -74,3 +74,18 @@ app.post("/pandemicCountries/:id", function(req, res) {
      //Se retornan la pandemia con el nuevo país
      res.send(arreglo);
 });
+
+app.get("/consultar-pais/:idPandemia", (req, res) => {
+  //Se recibe ID de pandemia
+  const  idPandemia  = req.params.idPandemia;
+
+  const pandemia = arreglo.find((pandemia) => pandemia.id === Number(idPandemia));
+  if (!pandemia) {
+      res.send('ID de pandemia no existe');
+  }
+
+
+  //Se retornan los paises de la pandemia
+  res.send(pandemia.paises);
+
+});
