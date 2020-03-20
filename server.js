@@ -15,47 +15,62 @@ app.use(
 var pandemics = [];
 
 app.post("/createpandemic", function(req, res) {
-  var pandemic = {
-    name: req.body.name,
-    symptom: req.body.symptom,
-    recomendations: req.body.recomendations,
-    inCurse: req.body.inCurse,
-    countries: req.body.countries
-  };
-  pandemic.id = crypto.randomBytes(20).toString("hex");
-  pandemics.push(pandemic);
-  res.json(pandemic);
+  //Se recibe body y se asigna a la variable pandemia
+  const { body: pandemia } = req;
+
+  //Se crea ID autoincrementable
+  const id = pandemias.length + 1;
+  const newPandemia = {
+      id,
+      ...pandemia
+  }
+
+  pandemias.push(newPandemia);
+
+  //Se retornan todas las pandemias
+  res.send(pandemias);
 });
 
 app.post("/pandemicCountries", function(req, res) {
-  let pandemicsCountries = pandemics.filter(
-    pandemic => pandemic.id == req.body.id
-  );
-  let countries = [];
-  pandemicsCountries.map(pandemic => {
-    console.log(pandemic);
-    countries.push(pandemic.countries);
-  });
-  res.json(countries);
-});
+     //Se recibe ID de pandemia
+     const { idPandemia } = req.params;
 
-app.post("/updateCountryData", function(req, res) {
-  let pandemicsquery = pandemics.filter(pandemic => pandemic.id == req.body.id);
-  if (pandemicsquery.length == 0) {
-    return res.json(`no se encontro ningun pais con el codigo ${req.body.id}`);
-  }
-  let newPandemics = pandemics.filter(pandemic => pandemic.id != req.body.id);
-  let pandemic = pandemicsquery[0];
-  let countriespandemicsquery = [];
-
-  let countries = [];
-  pandemicsCountries.map(pandemic => {
-    console.log(pandemic);
-    countries.push(pandemic.countries);
-  });
-  res.json(countries);
-});
-
-const server = app.listen(app.get("port"), () => {
-  console.log("serve on port", app.get("port"));
+     //Se recibe body y se asigna a la variable pandemia
+     const { body: pais } = req;
+ 
+     const pandemia = pandemias.find((pandemia) => pandemia.id === Number(idPandemia));
+     if (!pandemia) {
+         res.send('ID de pandemia no existe');
+     }
+ 
+     //Se busca país por nombre
+     let datoPais = pandemia.paises.find((objPais) => objPais.nombre.toLocaleLowerCase() === pais.nombre.toLocaleLowerCase());
+     
+     //Si existe el país, se actualiza
+     if (datoPais) {
+         const indexPais = pandemia.paises.findIndex((objPais) => objPais.nombre.toLocaleLowerCase() === pais.nombre.toLocaleLowerCase());
+         pandemia.paises[indexPais] = {
+             ...datoPais,
+             ...pais
+ 
+         }
+     }
+     //Si no existe el país, se crea
+     else {
+ 
+         //Se crea ID autoincrementable
+         const idPais = pandemia.paises.length + 1;
+ 
+         //Se crea nuevo objeto de país
+         const newPais = {
+             id: idPais,
+             ...pais
+         }
+ 
+         //Se inserta país a la pandemia
+         pandemia.paises.push(newPais);
+     }
+ 
+     //Se retornan la pandemia con el nuevo país
+     res.send(pandemias);
 });
