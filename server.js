@@ -1,6 +1,7 @@
 const express = require ('express');
 const bodyParser = require ('body-parser');
 const crypto = require ('crypto');
+const arreglo = require ('./arreglo');
 
 var app = express();
 app.set("port", process.env.PORT || 3000);
@@ -12,36 +13,35 @@ app.use(
   })
 );
 
-var pandemics = [];
+app.listen(3000, () => {
+  console.log('Corriendo en http://localhost:3000');
+});
+
 
 app.post("/createpandemic", function(req, res) {
   //Se recibe body y se asigna a la variable pandemia
-  const { body: pandemia } = req;
+  const pandemia  = req.body;
 
   //Se crea ID autoincrementable
-  const id = pandemias.length + 1;
+  const id = arreglo.length + 1;
   const newPandemia = {
       id,
       ...pandemia
   }
 
-  pandemias.push(newPandemia);
+  arreglo.push(newPandemia);
 
-  //Se retornan todas las pandemias
-  res.send(pandemias);
+ 
+  res.send(arreglo);
 });
 
-app.post("/pandemicCountries", function(req, res) {
-     //Se recibe ID de pandemia
-     const { idPandemia } = req.params;
+app.post("/pandemicCountries/:id", function(req, res) {
+     const id = req.params.id;
 
      //Se recibe body y se asigna a la variable pandemia
-     const { body: pais } = req;
+     const pais = req.body;
  
-     const pandemia = pandemias.find((pandemia) => pandemia.id === Number(idPandemia));
-     if (!pandemia) {
-         res.send('ID de pandemia no existe');
-     }
+     const pandemia = arreglo.find((pandemia) => pandemia.id === parseInt(id));
  
      //Se busca país por nombre
      let datoPais = pandemia.paises.find((objPais) => objPais.nombre.toLocaleLowerCase() === pais.nombre.toLocaleLowerCase());
@@ -72,5 +72,5 @@ app.post("/pandemicCountries", function(req, res) {
      }
  
      //Se retornan la pandemia con el nuevo país
-     res.send(pandemias);
+     res.send(arreglo);
 });
