@@ -76,7 +76,7 @@ app.post("/pandemicCountries/:id", function(req, res) {
 });
 
 app.get("/consultar-pais/:idPandemia", (req, res) => {
-  //Se recibe ID de pandemia
+  
   const  idPandemia  = req.params.idPandemia;
 
   const pandemia = arreglo.find((pandemia) => pandemia.id === Number(idPandemia));
@@ -87,5 +87,19 @@ app.get("/consultar-pais/:idPandemia", (req, res) => {
 
   //Se retornan los paises de la pandemia
   res.send(pandemia.paises);
+
+});
+
+app.get("/consultar/:idPandemia", (req, res) => {
+  //Se recibe ID de pandemia
+  const idPandemia = req.params.idPandemia;
+
+  const pandemia = arreglo.find((pandemia) => pandemia.id === Number(idPandemia));
+  if (!pandemia) {
+      res.send('ID de pandemia no existe');
+  }
+
+  //Se retornan la pandemia con los paises
+  res.send(pandemia);
 
 });
