@@ -27,7 +27,7 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "crypto": "^1.0.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "nodemon": "^2.0.2"
   }
 }
